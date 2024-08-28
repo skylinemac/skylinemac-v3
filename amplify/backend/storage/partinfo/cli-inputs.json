@@ -1,0 +1,20 @@
+{
+  "resourceName": "partinfo",
+  "tableName": "partinfo",
+  "partitionKey": {
+    "fieldName": "parentemail",
+    "fieldType": "string"
+  },
+  "gsi": [
+    {
+      "name": "name",
+      "partitionKey": {
+        "fieldName": "name",
+        "fieldType": "string"
+      }
+    }
+  ],
+  "triggerFunctions": [
+    "partinfoTrigger94da269a"
+  ]
+}

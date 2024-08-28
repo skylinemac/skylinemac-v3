@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/registration": {
+      "name": "/registration",
+      "lambdaFunction": "registration",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
