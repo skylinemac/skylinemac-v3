@@ -10,6 +10,24 @@
       "StackName": "amplify-skylinemacv3-dev-56621",
       "StackId": "arn:aws:cloudformation:us-west-2:339713102817:stack/amplify-skylinemacv3-dev-56621/6d744890-56a3-11ef-868b-06a69aa67191",
       "AmplifyAppId": "d3sbnn2fy7hzzm"
+    },
+    "categories": {
+      "function": {
+        "registration": {
+          "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
+          "s3Key": "amplify-builds/registration-66506b4237394e6a7551-build.zip"
+        },
+        "partinfoTrigger94da269a": {
+          "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
+          "s3Key": "amplify-builds/partinfoTrigger94da269a-6447795a6b5968777468-build.zip"
+        }
+      },
+      "storage": {
+        "partinfo": {}
+      },
+      "api": {
+        "regAPI": {}
+      }
     }
   }
 }

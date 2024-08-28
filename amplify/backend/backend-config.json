@@ -1,3 +1,96 @@
 {
-  "auth": {}
+  "api": {
+    "regAPI": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "registration"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "auth": {},
+  "function": {
+    "partinfoTrigger94da269a": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "partinfo"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "registration": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "partinfo"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_partinfoTrigger94da269a_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "partinfoTrigger94da269a"
+        }
+      ]
+    },
+    "AMPLIFY_function_partinfoTrigger94da269a_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "partinfoTrigger94da269a"
+        }
+      ]
+    },
+    "AMPLIFY_function_registration_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "registration"
+        }
+      ]
+    },
+    "AMPLIFY_function_registration_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "registration"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "partinfo": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    }
+  }
 }
