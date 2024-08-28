@@ -14,7 +14,7 @@ exports.handler = async (event) => {
       // Parse the stringified form data from the event body
       const formData = JSON.parse(event.body);
 
-      const { name, email, message } = formData;
+      const { name, grade, school, parentemail, studentemail } = formData;
 
       // Log the data to the console (optional)
       console.log('Received form data:', formData);
@@ -24,8 +24,10 @@ exports.handler = async (event) => {
           statusCode: 200,
           body: JSON.stringify({
               name: name,
-              email: email,
-              message: message
+              grade: grade,
+              school: school,
+              parentemail: parentemail,
+              studentemail: studentemail
           }),
           headers: {
               'Content-Type': 'application/json',
