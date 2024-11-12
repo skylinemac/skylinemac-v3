@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/entries": {
+      "name": "/entries",
+      "lambdaFunction": "DisplayRegDB",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

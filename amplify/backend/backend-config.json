@@ -1,5 +1,19 @@
 {
   "api": {
+    "displayDB": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "DisplayRegDB"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "regAPI": {
       "dependsOn": [
         {
@@ -17,6 +31,11 @@
   },
   "auth": {},
   "function": {
+    "DisplayRegDB": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "partinfoTrigger94da269a": {
       "build": true,
       "dependsOn": [
@@ -54,6 +73,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_DisplayRegDB_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "DisplayRegDB"
+        }
+      ]
+    },
+    "AMPLIFY_function_DisplayRegDB_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "DisplayRegDB"
+        }
+      ]
+    },
     "AMPLIFY_function_partinfoTrigger94da269a_deploymentBucketName": {
       "usedBy": [
         {
