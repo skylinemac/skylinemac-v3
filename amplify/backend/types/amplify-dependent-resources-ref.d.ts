@@ -1,5 +1,10 @@
 export type AmplifyDependentResourcesAttributes = {
   "api": {
+    "displayDB": {
+      "ApiId": "string",
+      "ApiName": "string",
+      "RootUrl": "string"
+    },
     "regAPI": {
       "ApiId": "string",
       "ApiName": "string",
@@ -7,6 +12,13 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
+    "DisplayRegDB": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "partinfoTrigger94da269a": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

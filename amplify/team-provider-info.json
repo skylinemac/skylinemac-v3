@@ -20,13 +20,18 @@
         "partinfoTrigger94da269a": {
           "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
           "s3Key": "amplify-builds/partinfoTrigger94da269a-6447795a6b5968777468-build.zip"
+        },
+        "DisplayRegDB": {
+          "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
+          "s3Key": "amplify-builds/DisplayRegDB-75576138754955683667-build.zip"
         }
       },
       "storage": {
         "partinfo": {}
       },
       "api": {
-        "regAPI": {}
+        "regAPI": {},
+        "displayDB": {}
       }
     }
   }
