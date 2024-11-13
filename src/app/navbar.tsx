@@ -28,8 +28,8 @@ const Navbar = () => {
                 }}> SKYLINE MATHEMATICAL APPLICATIONS CONTEST </a>
             </div>
             <div className='navBarText'>
-                <a href='/overview' className='navBarLinks'>OVERVIEW</a>
-                <a href='/past-tests' className='navBarLinks'>PAST TESTS</a>
+                <a href='/registration' className='navBarLinks'>REGISTRATION</a>
+                <a href='/userlist' className='navBarLinks'>USER LIST</a>
                 <a href='/competition-format' className='navBarLinks'>RULES</a>
                 <a href='/about-us' className='navBarLinks'>ABOUT US</a>
             </div>

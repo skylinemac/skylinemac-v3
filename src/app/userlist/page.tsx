@@ -1,8 +1,11 @@
 import App from './app';
 import React from 'react';
-
+import NavBar from "../navbar";
 export default function UserList() {
     return (
-        <App />
+        <div>
+            <NavBar />
+            <App />
+        </div>  
     );
 };
