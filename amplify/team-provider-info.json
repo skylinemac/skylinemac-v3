@@ -17,10 +17,6 @@
           "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
           "s3Key": "amplify-builds/registration-36464f4c4a61674b4a39-build.zip"
         },
-        "partinfoTrigger94da269a": {
-          "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
-          "s3Key": "amplify-builds/partinfoTrigger94da269a-6447795a6b5968777468-build.zip"
-        },
         "DisplayRegDB": {
           "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
           "s3Key": "amplify-builds/DisplayRegDB-576e537153647464696e-build.zip"

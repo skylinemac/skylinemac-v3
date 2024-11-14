@@ -36,22 +36,6 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "partinfoTrigger94da269a": {
-      "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Name",
-            "Arn",
-            "StreamArn"
-          ],
-          "category": "storage",
-          "resourceName": "partinfo"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
     "registration": {
       "build": true,
       "dependsOn": [
@@ -86,22 +70,6 @@
         {
           "category": "function",
           "resourceName": "DisplayRegDB"
-        }
-      ]
-    },
-    "AMPLIFY_function_partinfoTrigger94da269a_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "partinfoTrigger94da269a"
-        }
-      ]
-    },
-    "AMPLIFY_function_partinfoTrigger94da269a_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "partinfoTrigger94da269a"
         }
       ]
     },
