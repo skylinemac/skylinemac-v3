@@ -7,6 +7,7 @@ import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueResponse;
+import org.json.JSONObject;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.util.*;
@@ -31,10 +32,9 @@ public class DynamoDBEmailLambdaHandler implements RequestHandler<DynamodbEvent,
         try {
             // Retrieve email credentials from AWS Secrets Manager
             String secretValue = getSecret();
-            secretValue.replace("\"", "").replace("{", "").replace("}","");
-            String[] secretParts = secretValue.split(",");
-            String username = secretParts[0];
-            String password = secretParts[1];
+            JSONObject jObject = new JSONObject(secretValue);
+            String username = "zach.w.yuan@gmail.com";
+            String password = (String) jObject.getString(username);
 
             // Configure properties for sending email via SMTP (Gmail)
             Properties props = new Properties();
@@ -53,10 +53,10 @@ public class DynamoDBEmailLambdaHandler implements RequestHandler<DynamodbEvent,
             // Email content
             String subject = "Welcome to SMAC!";
             String body = "Hi " + name + ",\n\n" +
-                    "Welcome and thank you for joining our competition -- we are excited to have you join us!" +
-                    "Information about the competition will be sent to you soon as we finalize more details, but for now, just wait tight!" +
+                    "Welcome and thank you for joining our competition -- we are excited to have you join us! " +
+                    "Information about the competition will be sent to you soon as we finalize more details, but for now, just wait tight! " +
                     "If you have any questions, feel free to reach out to us at shmathclub@gmail.com" + "\n" +
-                    "\n" + "Best regards,\n " +
+                    "\n" + "Best regards, \n" +
                     "SMAC Coordinators \n" +
                     "Sophia Wang, Zachary Yuan, and Max Guo";
 
@@ -75,7 +75,7 @@ public class DynamoDBEmailLambdaHandler implements RequestHandler<DynamodbEvent,
     }
     public static String getSecret() {
 
-        String secretName = "MathClubPasskey";
+        String secretName = "TestPasskey";
         Region region = Region.of("us-west-2");
 
         // Create a Secrets Manager client
