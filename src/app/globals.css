@@ -16,7 +16,7 @@
 }
 body {
   text-align: center;
-  background-color: #003f22;
+  background-color: #f3f4f6;
 }
 
 @layer utilities {
@@ -55,7 +55,7 @@ body {
 
 .navBarLinks{
   color: black;
-  font-size: larger;
+  font-size: large;
   font-family: 'Times New Roman', Times, serif;
   text-decoration: none;
 }
