@@ -20,7 +20,7 @@ public class DynamoDBEmailLambdaHandler implements RequestHandler<DynamodbEvent,
             if ("INSERT".equals(record.getEventName())) {
                 String name = record.getDynamodb().getNewImage().get("name").getS();
                 String email = record.getDynamodb().getNewImage().get("parentemail").getS();
-                //sendEmail(name, email);
+                sendEmail(name, email);
             }
         }
         return "Processed DynamoDB Event";
