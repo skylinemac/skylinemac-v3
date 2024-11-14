@@ -21,11 +21,27 @@ const App: React.FC = () => {
         fetchStudents();
     }, []);
 
+    
     function formatJSON(input: string) { 
         input = input.replaceAll("\"", "");
-        var startQuote = input.indexOf("{") + 1;
+        var result = "[";
+        var startQuote = input.indexOf("{");
+        var endQuote = input.indexOf("}");
+        while (input.indexOf("{", startQuote) != -1) {
+            result += formatStudent(input.substring(startQuote + 1, endQuote));
+            startQuote = endQuote + 2;
+            endQuote = input.indexOf("}", startQuote);
+            if (startQuote != input.length) {
+                result += ",";
+            }
+        }
+        result += "]";
+        return result;
+    }
+    function formatStudent(input: string){
+        var startQuote = 0;
         var endQuote = input.indexOf("=");
-        var result = "[{\"" + input.substring(startQuote, endQuote) + "\":";
+        var result = "{\"" + input.substring(startQuote, endQuote) + "\":";
         while (input.indexOf(",", startQuote) != -1) {
             startQuote = endQuote + 1;
             endQuote = input.indexOf(",", startQuote);
@@ -35,8 +51,8 @@ const App: React.FC = () => {
             result += "\"" + input.substring(startQuote, endQuote) + "\":";
         }
         startQuote = endQuote + 1;
-        endQuote = input.indexOf("}");
-        result += "\"" + input.substring(startQuote, endQuote) + "\"}]";
+        endQuote = input.length;
+        result += "\"" + input.substring(startQuote, endQuote) + "\"}";
         return result;
     }
 
@@ -106,26 +122,33 @@ const App: React.FC = () => {
     const filteredStudents = students
         ? students.filter(student =>
               Object.values(student).some(value =>
-                  value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+                  value != null && value.toString().toLowerCase().includes(searchTerm.toLowerCase())
               )
           )
         : [];
 
     return (
-        <div>
-            <h1>Student Database</h1>
-            <SearchBar searchTerm={searchTerm} onSearch={setSearchTerm} />
-            <StudentTable
-                students={filteredStudents}
-                sortColumn={sortColumn}
-                sortOrder={sortOrder}
-                onSort={handleSort}
-                onEdit={setEditingStudent}
-                onDelete={handleDelete}
-                editingStudent={editingStudent}
-                setEditingStudent={setEditingStudent}
-                onSaveEdit={handleEdit}
-            />
+        <div className="flex flex-col items-center justify-center min-h-screen p-4">
+            <h1 className="text-2xl font-bold mb-4 text-black">Student Database</h1>
+            <div className="w-full max-w-md mb-4">
+                <SearchBar 
+                    searchTerm={searchTerm} 
+                    onSearch={setSearchTerm} 
+                />
+            </div>
+            <div className="w-full max-w-4xl mt-4">
+                <StudentTable
+                    students={filteredStudents}
+                    sortColumn={sortColumn}
+                    sortOrder={sortOrder}
+                    onSort={handleSort}
+                    onEdit={setEditingStudent}
+                    onDelete={handleDelete}
+                    editingStudent={editingStudent}
+                    setEditingStudent={setEditingStudent}
+                    onSaveEdit={handleEdit}
+                />
+            </div>
         </div>
     );
 };

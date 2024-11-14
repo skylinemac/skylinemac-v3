@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, ChangeEvent, FormEvent } from 'react';
+import NavBar from '../navbar';
 
 interface ResponseType {
   name: string;
@@ -45,6 +46,7 @@ export default function DisplayForm() {
 
   return (
     <div>
+      <NavBar />
       <form onSubmit={handleSubmit}>
         <input name="name" placeholder="Name" value={formData.name} onChange={handleChange} />
         <input name="grade" placeholder="Grade" value={formData.grade} onChange={handleChange} />
