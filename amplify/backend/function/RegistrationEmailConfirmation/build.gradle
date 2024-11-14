@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // AWS Lambda Java SDK (for Lambda runtime and event handling)
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.1'
+    implementation 'com.amazonaws:aws-lambda-java-events:3.3.1'
+
+    // AWS SDK for Secrets Manager
+    implementation 'com.amazonaws:aws-java-sdk-secretsmanager:1.12.250'
+    implementation 'software.amazon.awssdk:secretsmanager:2.10.0'
+
+    // JavaMail API for sending emails
+    implementation 'javax.mail:javax.mail-api:1.6.2'
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+
+    // SLF4J logging (optional)
+    implementation 'org.slf4j:slf4j-api:2.0.0-alpha1'
+    implementation 'org.slf4j:slf4j-simple:2.0.0-alpha1'
+
+}
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'example.DynamoDBEmailLambdaHandler' // Update this to the correct main class
+        )
+    }
+}
+test {
+    useJUnitPlatform()
+}
+task customZip(type: Jar) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtimeClasspath
+    }
+    archiveFileName = 'latest_build.jar'
+    destinationDirectory = file("$buildDir/distributions")
+}
+
+build.finalizedBy(customZip)
