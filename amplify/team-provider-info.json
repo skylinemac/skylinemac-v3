@@ -23,7 +23,7 @@
         },
         "DisplayRegDB": {
           "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
-          "s3Key": "amplify-builds/DisplayRegDB-75576138754955683667-build.zip"
+          "s3Key": "amplify-builds/DisplayRegDB-576e537153647464696e-build.zip"
         }
       },
       "storage": {
