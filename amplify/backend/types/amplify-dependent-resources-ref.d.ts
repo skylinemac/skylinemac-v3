@@ -28,6 +28,16 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "storage": {
+    "participantinfo": {
+      "Arn": "string",
+      "Name": "string",
+      "PartitionKeyName": "string",
+      "PartitionKeyType": "string",
+      "Region": "string",
+      "SortKeyName": "string",
+      "SortKeyType": "string",
+      "StreamArn": "string"
+    },
     "partinfo": {
       "Arn": "string",
       "Name": "string",

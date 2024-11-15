@@ -15,15 +15,16 @@
       "function": {
         "registration": {
           "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
-          "s3Key": "amplify-builds/registration-505646575178656c307a-build.zip"
+          "s3Key": "amplify-builds/registration-7758642b4852794b4436-build.zip"
         },
         "DisplayRegDB": {
           "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
-          "s3Key": "amplify-builds/DisplayRegDB-576e537153647464696e-build.zip"
+          "s3Key": "amplify-builds/DisplayRegDB-6769306f664b55624e4c-build.zip"
         }
       },
       "storage": {
-        "partinfo": {}
+        "partinfo": {},
+        "participantinfo": {}
       },
       "api": {
         "regAPI": {},

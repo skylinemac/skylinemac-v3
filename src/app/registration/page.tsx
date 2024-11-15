@@ -1,25 +1,30 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import NavBar from '../navbar';
 
 interface ResponseType {
+  studentID: number;
   name: string;
   grade: number;
   school: string;
   parentemail: string;
   studentemail: string;
+  constant: number;
 }
 
 export default function DisplayForm() {
   const [formData, setFormData] = useState<ResponseType>({
+    studentID: 0,
     name: '',
     grade: 0,
     school: '',
     parentemail: '',
     studentemail: '',
+    constant: 1,
   });
   const [response, setResponse] = useState<ResponseType | null>(null);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false); // Track submission state
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,22 +32,54 @@ export default function DisplayForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Submitting form:', JSON.stringify(formData));
+
     try {
-      const res = await fetch('https://vvq9yn8c3m.execute-api.us-west-2.amazonaws.com/dev/registration', {
-        method: 'POST',
+      const response = await fetch('https://vvq9yn8c3m.execute-api.us-west-2.amazonaws.com/dev/latest-student', {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
       });
-      //console.log('Response Received');
-      const data: ResponseType = await res.json();
-      setResponse(data); // Display the response data
+      let recentStudent = await response.json();
+      console.log('Recent Student:', recentStudent);
+      const newID = recentStudent.data.studentID + 1;
+      console.log('New Student ID:', newID);
+
+      // Update formData with the new student ID using a callback to ensure it's the latest state
+      setFormData(prevFormData => {
+        return { ...prevFormData, studentID: newID };
+      });
+
+      setIsFormSubmitted(true); // Flag to trigger form submission after state update
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('Error getting latest student:', error);
     }
   };
+
+  // useEffect to handle form submission after state has been updated
+  useEffect(() => {
+    if (isFormSubmitted) {
+      const submitForm = async () => {
+        console.log('Submitting form:', JSON.stringify(formData));
+        try {
+          const res = await fetch('https://vvq9yn8c3m.execute-api.us-west-2.amazonaws.com/dev/registration', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          });
+          const data: ResponseType = await res.json();
+          setResponse(data); // Display the response data
+        } catch (error) {
+          console.error('Error submitting form:', error);
+        }
+      };
+
+      submitForm();
+      setIsFormSubmitted(false); // Reset flag after submission
+    }
+  }, [isFormSubmitted, formData]); // Effect will run when formData changes
 
   return (
     <div>

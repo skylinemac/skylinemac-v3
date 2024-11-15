@@ -91,6 +91,10 @@
     }
   },
   "storage": {
+    "participantinfo": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
     "partinfo": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
