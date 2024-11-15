@@ -1,42 +1,43 @@
-const awsServerlessExpress = require('aws-serverless-express');
-const app = require('./app');
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
+import awsServerlessExpress from 'aws-serverless-express';
+import app from './app.js';
 
 /**
- * @type {import('http').Server}
+ * Create the DynamoDB Document Client with AWS SDK v3
+ */
+const dynamoDbClient = new DynamoDBClient({});
+const dynamoDb = DynamoDBDocumentClient.from(dynamoDbClient);
+
+/**
+ * Create server for AWS Serverless Express
  */
 const server = awsServerlessExpress.createServer(app);
 
-/**
- * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
- */
-const AWS = require('aws-sdk');
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
-
-exports.handler = async (event) => {
+export const handler = async (event) => {
     try {
         // Parse the stringified form data from the event body
         const formData = JSON.parse(event.body);
-
-        const { name, grade, school, parentemail, studentemail } = formData;
+        const { studentID, name, grade, school, parentemail, studentemail } = formData;
 
         // Log the data to the console (optional)
         console.log('Received form data:', formData);
 
         // Define the parameters for DynamoDB
         const params = {
-            TableName: 'partinfo-dev', // Replace with your DynamoDB table name
+            TableName: 'participants-dev', // Replace with your DynamoDB table name
             Item: {
+                studentID: studentID,
                 name: name,
                 grade: grade,
                 school: school,
                 parentemail: parentemail,
                 studentemail: studentemail,
-                createdAt: new Date().toISOString(), // Optional: track the creation time
             },
         };
 
         // Write the data to DynamoDB
-        await dynamoDb.put(params).promise();
+        await dynamoDb.send(new PutCommand(params));
 
         // Create the response object
         const response = {
