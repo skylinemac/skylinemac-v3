@@ -36,6 +36,22 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "RegistrationEmail": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "participantinfo"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "registration": {
       "build": true,
       "dependsOn": [
@@ -70,6 +86,22 @@
         {
           "category": "function",
           "resourceName": "DisplayRegDB"
+        }
+      ]
+    },
+    "AMPLIFY_function_RegistrationEmail_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "RegistrationEmail"
+        }
+      ]
+    },
+    "AMPLIFY_function_RegistrationEmail_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "RegistrationEmail"
         }
       ]
     },

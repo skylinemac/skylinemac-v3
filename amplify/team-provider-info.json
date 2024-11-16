@@ -20,6 +20,10 @@
         "DisplayRegDB": {
           "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
           "s3Key": "amplify-builds/DisplayRegDB-6769306f664b55624e4c-build.zip"
+        },
+        "RegistrationEmail": {
+          "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
+          "s3Key": "amplify-builds/RegistrationEmail-7a2f525847652f394633-build.zip"
         }
       },
       "storage": {
