@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class DynamoDBService {
 
     private final DynamoDbClient dynamoDbClient = DynamoDbClient.builder().region(Region.US_WEST_2).build();
-    private final String tableName = "partinfo-dev";
+    private final String tableName = "participantinfo-dev";
 
     public List<Map<String, String>> getAllItems() {
         ScanRequest scanRequest = ScanRequest.builder().tableName(tableName).build();
@@ -21,7 +21,7 @@ public class DynamoDBService {
                 .collect(Collectors.toList());
     }
 
-    public Map<String, String> deleteItem(String parentemail) {
+    /*public Map<String, String> deleteItem(String parentemail) {
         DeleteItemRequest deleteRequest = DeleteItemRequest.builder()
                 .tableName(tableName)
                 .key(Map.of("parentemail", AttributeValue.builder().s(parentemail).build()))
@@ -69,7 +69,7 @@ public class DynamoDBService {
 
         dynamoDbClient.updateItem(updateRequest);
         return createSuccessResponse("Item updated successfully.");
-    }
+    }*/
 
     private Map<String, String> createSuccessResponse(String message) {
         Map<String, String> response = new HashMap<>();

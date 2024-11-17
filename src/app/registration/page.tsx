@@ -24,11 +24,24 @@ export default function DisplayForm() {
     constant: 1,
   });
   const [response, setResponse] = useState<ResponseType | null>(null);
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false); // Track submission state
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [isValid, setIsValid] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
+
+  useEffect(() => {
+    // Validation: Check if all fields are filled
+    setIsValid(
+      formData.name.trim() !== '' &&
+      formData.grade.toString().trim() !== '' &&
+      formData.school.trim() !== '' &&
+      formData.parentemail.trim() !== '' &&
+      formData.studentemail.trim() !== ''
+    );
+  }, [formData]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,26 +54,21 @@ export default function DisplayForm() {
         },
       });
       let recentStudent = await response.json();
-      console.log('Recent Student:', recentStudent);
       const newID = recentStudent.data.studentID + 1;
-      console.log('New Student ID:', newID);
 
-      // Update formData with the new student ID using a callback to ensure it's the latest state
       setFormData(prevFormData => {
         return { ...prevFormData, studentID: newID };
       });
 
-      setIsFormSubmitted(true); // Flag to trigger form submission after state update
+      setIsFormSubmitted(true);
     } catch (error) {
       console.error('Error getting latest student:', error);
     }
   };
 
-  // useEffect to handle form submission after state has been updated
   useEffect(() => {
     if (isFormSubmitted) {
       const submitForm = async () => {
-        console.log('Submitting form:', JSON.stringify(formData));
         try {
           const res = await fetch('https://vvq9yn8c3m.execute-api.us-west-2.amazonaws.com/dev/registration', {
             method: 'POST',
@@ -70,38 +78,104 @@ export default function DisplayForm() {
             body: JSON.stringify(formData),
           });
           const data: ResponseType = await res.json();
-          setResponse(data); // Display the response data
+          setResponse(data);
         } catch (error) {
           console.error('Error submitting form:', error);
         }
       };
 
       submitForm();
-      setIsFormSubmitted(false); // Reset flag after submission
+      setIsFormSubmitted(false);
     }
-  }, [isFormSubmitted, formData]); // Effect will run when formData changes
+  }, [isFormSubmitted, formData]);
 
   return (
     <div>
       <NavBar />
-      <form onSubmit={handleSubmit}>
-        <input name="name" placeholder="Name" value={formData.name} onChange={handleChange} />
-        <input name="grade" placeholder="Grade" value={formData.grade} onChange={handleChange} />
-        <input name="school" placeholder="School" value={formData.school} onChange={handleChange} />
-        <input name="parentemail" placeholder="Parent Email" value={formData.parentemail} onChange={handleChange} />
-        <input name="studentemail" placeholder="Student Email" value={formData.studentemail} onChange={handleChange} />
-        <button type="submit">Submit</button>
-      </form>
-      {response && (
-        <div>
-          <h3>Submitted Data:</h3>
-          <p>Name: {response.name}</p>
-          <p>Grade: {response.grade}</p>
-          <p>School: {response.school}</p>
-          <p>Parent Email: {response.parentemail}</p>
-          <p>Student Email: {response.studentemail}</p>
-        </div>
-      )}
+      <div className="max-w-2xl mx-auto bg-gray-200 shadow-md rounded-lg p-6 mt-6">
+        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Student Registration Form</h2>
+        <p className="text-black text-left"> Hello Prospective SMAC Participant/Parent! </p>
+        <br/>
+        <p className="text-black text-left">Thank you for your interest in the Skyline Math Applications Contest!
+           Our team has been hard at work preparing for the 2025 competition, with a brand-new set of problems, 
+           opportunities, and rewards for all of our participants.
+           We are excited to have you join us for this year's competition: all you need to do is fill out the form below and we'll handle the rest!
+        </p>
+        <br/>
+        <p className="text-black text-left">Note: All fields must be filled out to submit the registration</p>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <br/>
+          <p className="text-black text-left font-semibold">Student's Full Name (First, Last)*</p>
+          <input
+            name="name"
+            placeholder="Name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg bg-white text-black focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <br/>
+          <br/>
+          <p className="text-black text-left font-semibold">Student's Grade Level*</p>
+          <input
+            name="grade"
+            placeholder="Grade"
+            value={formData.grade}
+            onChange={handleChange}
+            type="number"
+            className="w-full p-3 border rounded-lg bg-white text-black focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <br/>
+          <br/>
+          <p className="text-black text-left font-semibold">Student's School*</p>
+          <input
+            name="school"
+            placeholder="School"
+            value={formData.school}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg bg-white text-black focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <br/>
+          <br/>
+          <p className="text-black text-left font-semibold">Parent's Email*</p>
+          <input
+            name="parentemail"
+            placeholder="Parent Email"
+            value={formData.parentemail}
+            onChange={handleChange}
+            type="email"
+            className="w-full p-3 border rounded-lg bg-white text-black focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <br/>
+          <br/>
+          <p className="text-black text-left font-semibold">Student's Email (Optional - enter N/A if undisclosed)</p>
+          <input
+            name="studentemail"
+            placeholder="Student Email"
+            value={formData.studentemail}
+            onChange={handleChange}
+            type="email"
+            className="w-full p-3 border rounded-lg bg-white text-black focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <button
+            type="submit"
+            disabled={!isValid}
+            className={`w-full py-3 text-white font-semibold rounded-lg 
+              ${isValid ? 'bg-blue-500 hover:bg-blue-600 focus:ring focus:ring-blue-300' : 'bg-gray-400 cursor-not-allowed'}`}
+          >
+            Submit
+          </button>
+        </form>
+        {response && (
+          <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md">
+            <h3 className="text-xl font-medium text-gray-700">Submitted Data:</h3>
+            <p>Name: {response.name}</p>
+            <p>Grade: {response.grade}</p>
+            <p>School: {response.school}</p>
+            <p>Parent Email: {response.parentemail}</p>
+            <p>Student Email: {response.studentemail}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
