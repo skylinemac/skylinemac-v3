@@ -17,14 +17,14 @@ const express = require('express')
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
-let tableName = "partinfo";
+let tableName = "participantinfo-dev";
 if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
 
 const userIdPresent = false; // TODO: update in case is required to use that definition
-const partitionKeyName = "parentemail";
-const partitionKeyType = "S";
+const partitionKeyName = "studentID";
+const partitionKeyType = "N";
 const sortKeyName = "";
 const sortKeyType = "";
 const hasSortKey = sortKeyName !== "";
@@ -153,6 +153,29 @@ app.get(path + '/object' + hashKeyPath + sortKeyPath, async function(req, res) {
   }
 });
 
+/***************************************
+* HTTP put method for latest studentID *
+***************************************/
+app.get(path + '/latest-studentID', async function(req, res) {
+  const params = {
+    TableName: tableName,
+    ProjectionExpression: 'studentID', // Only retrieve the studentID attribute to reduce data transfer
+  };
+
+  try {
+    // Use Scan to get all studentIDs (consider using a Query if you can set up a GSI with sorting on studentID)
+    const data = await ddbDocClient.send(new ScanCommand(params));
+    
+    // Extract the maximum studentID
+    const maxStudentID = data.Items.reduce((max, item) => 
+      Math.max(max, item.studentID), 0); // Initialize max at 0 or some base value
+    
+    res.json({ latestStudentID: maxStudentID });
+  } catch (err) {
+    console.error("Error retrieving latest student ID:", err);
+    res.status(500).json({ error: "Error retrieving latest student ID" });
+  }
+});
 
 /************************************
 * HTTP put method for insert object *

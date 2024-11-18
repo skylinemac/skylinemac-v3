@@ -5,15 +5,14 @@ import axios from 'axios';
 import StudentTable from './studtable';
 import SearchBar from './searchbar';
 import { Student } from './types';
-import { format } from 'path';
-import { start } from 'repl';
 
 const App: React.FC = () => {
     const [students, setStudents] = useState<Student[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortColumn, setSortColumn] = useState<keyof Student>('name');
+    const [sortColumn, setSortColumn] = useState<keyof Student>('studentID');
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
     const [editingStudent, setEditingStudent] = useState<Student | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
 
     const apiURL = 'https://87j23b69k9.execute-api.us-west-2.amazonaws.com/dev/entries';
 
@@ -29,9 +28,9 @@ const App: React.FC = () => {
         var endQuote = input.indexOf("}");
         while (input.indexOf("{", startQuote) != -1) {
             result += formatStudent(input.substring(startQuote + 1, endQuote));
-            startQuote = endQuote + 2;
+            startQuote = endQuote + 3;
             endQuote = input.indexOf("}", startQuote);
-            if (startQuote != input.length) {
+            if (startQuote != input.length + 1) {
                 result += ",";
             }
         }
@@ -70,13 +69,15 @@ const App: React.FC = () => {
     
             // Map and format the data
             const students: Student[] = parsedArray.map((item: any) => ({
-                createdAt: item.createdAt,
+                studentID: item.studentID,
                 name: item.name,
                 grade: item.grade,
                 school: item.school,
                 parentemail: item.parentemail,
                 studentemail: item.studentemail,
             }));
+            setLoading(false);
+            students.sort((a, b) => a.studentID - b.studentID);
             setStudents(students);
         } catch (error) {
             console.error('Error fetching students:', error);
@@ -84,11 +85,11 @@ const App: React.FC = () => {
     };
     
 
-    const handleDelete = async (parentemail: string) => {
+    const handleDelete = async (studentID: number) => {
         try {
             await axios.post(apiURL, {
                 action: 'DELETE',
-                parentemail
+                studentID
             });
             fetchStudents();
         } catch (error) {
@@ -113,11 +114,21 @@ const App: React.FC = () => {
         const order = column === sortColumn && sortOrder === 'asc' ? 'desc' : 'asc';
         setSortColumn(column);
         setSortOrder(order);
-        setStudents(prev => [...prev].sort((a, b) => {
-            const compare = a[column] < b[column] ? -1 : a[column] > b[column] ? 1 : 0;
-            return order === 'asc' ? compare : -compare;
-        }));
+        setStudents(prev =>
+            [...prev].sort((a, b) => {
+                if (column === 'studentID' || column === 'grade') {
+                    // Numeric comparison
+                    const compare = (a[column] as number) - (b[column] as number);
+                    return order === 'asc' ? compare : -compare;
+                } else {
+                    // String comparison
+                    const compare = (a[column] as string).localeCompare(b[column] as string);
+                    return order === 'asc' ? compare : -compare;
+                }
+            })
+        );
     };
+    
 
     const filteredStudents = students
         ? students.filter(student =>
@@ -136,7 +147,12 @@ const App: React.FC = () => {
                     onSearch={setSearchTerm} 
                 />
             </div>
-            <div className="w-full max-w-4xl mt-4">
+            {loading ? (
+                <div className="items-center justify-center min-h-screen mt-10">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500"></div>
+                </div>
+            ) : (
+            <div className= "mt-4">
                 <StudentTable
                     students={filteredStudents}
                     sortColumn={sortColumn}
@@ -149,6 +165,7 @@ const App: React.FC = () => {
                     onSaveEdit={handleEdit}
                 />
             </div>
+            )}
         </div>
     );
 };

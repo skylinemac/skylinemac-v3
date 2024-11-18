@@ -1,0 +1,28 @@
+{
+  "resourceName": "participantinfo",
+  "tableName": "participantinfo",
+  "partitionKey": {
+    "fieldName": "studentID",
+    "fieldType": "number"
+  },
+  "sortKey": {
+    "fieldName": "name",
+    "fieldType": "string"
+  },
+  "gsi": [
+    {
+      "name": "highestID",
+      "partitionKey": {
+        "fieldName": "constant",
+        "fieldType": "number"
+      },
+      "sortKey": {
+        "fieldName": "studentID",
+        "fieldType": "number"
+      }
+    }
+  ],
+  "triggerFunctions": [
+    "RegistrationEmail"
+  ]
+}

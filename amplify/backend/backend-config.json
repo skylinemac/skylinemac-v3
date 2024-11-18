@@ -33,6 +33,23 @@
   "function": {
     "DisplayRegDB": {
       "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "RegistrationEmail": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "participantinfo"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -73,6 +90,22 @@
         }
       ]
     },
+    "AMPLIFY_function_RegistrationEmail_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "RegistrationEmail"
+        }
+      ]
+    },
+    "AMPLIFY_function_RegistrationEmail_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "RegistrationEmail"
+        }
+      ]
+    },
     "AMPLIFY_function_registration_deploymentBucketName": {
       "usedBy": [
         {
@@ -91,6 +124,10 @@
     }
   },
   "storage": {
+    "participantinfo": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
     "partinfo": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
