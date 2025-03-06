@@ -21,16 +21,19 @@ public class DynamoDBService {
                 .collect(Collectors.toList());
     }
 
-    /*public Map<String, String> deleteItem(String parentemail) {
+    public Map<String, String> deleteItem(String studentID, String name) {
+        Map<String, AttributeValue> keyList = new HashMap<>();
+        keyList.put("studentID", AttributeValue.builder().n(studentID).build());
+        keyList.put("name", AttributeValue.builder().s(name).build());
         DeleteItemRequest deleteRequest = DeleteItemRequest.builder()
                 .tableName(tableName)
-                .key(Map.of("parentemail", AttributeValue.builder().s(parentemail).build()))
+                .key(keyList)
                 .build();
 
         dynamoDbClient.deleteItem(deleteRequest);
         return createSuccessResponse("Item deleted successfully.");
     }
-
+    
     public Map<String, String> editItem(String parentemail, Map<String, String> attributes) {
         Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
         StringBuilder updateExpression = new StringBuilder("SET ");
@@ -69,7 +72,7 @@ public class DynamoDBService {
 
         dynamoDbClient.updateItem(updateRequest);
         return createSuccessResponse("Item updated successfully.");
-    }*/
+    }
 
     private Map<String, String> createSuccessResponse(String message) {
         Map<String, String> response = new HashMap<>();

@@ -4,6 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import org.json.JSONObject;
 
 
 public class DynamoDBLambdaFunction implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
@@ -29,31 +30,25 @@ public class DynamoDBLambdaFunction implements RequestHandler<APIGatewayProxyReq
         switch (action) {
             case "GET":
                 return ResponseUtil.createSuccessResponse(dynamoDBService.getAllItems());
-            /*case "DELETE":
-                //String parentEmailToDelete = request.get("parentemail");
-                //if (parentEmailToDelete == null) {
-                    return ResponseUtil.createErrorResponse("Missing 'parentemail' parameter for DELETE action.");
-                //}
-                //return ResponseUtil.createSuccessResponse(dynamoDBService.deleteItem(parentEmailToDelete));
-            case "EDIT":
-                //String parentEmailToEdit = request.get("parentemail");
-                //if (parentEmailToEdit == null) {
-                  return ResponseUtil.createErrorResponse("Missing 'parentemail' parameter for EDIT action.");
-                //}
-
-                String body = request.getBody();
-                if (body == null) {
-                    return ResponseUtil.createErrorResponse("Missing request body for EDIT action.");
-                }
-
-                /*try {
-                    Map<String, String> attributes = new ObjectMapper().readValue(body, Map.class);
-                    return ResponseUtil.createSuccessResponse(dynamoDBService.editItem(parentEmailToEdit, attributes));
-                } catch (JsonProcessingException e) {
-                    return ResponseUtil.createErrorResponse("Failed to parse request body: " + e.getMessage());
+            case "DELETE":
+                String userToDelete = request.getBody();
+                JSONObject obj = new JSONObject(userToDelete);
+                int id = obj.getInt("studentID");
+                String name = obj.getString("name");
+                return ResponseUtil.createSuccessResponse(dynamoDBService.deleteItem(id, name));
+            case "PATCH":
+                String userToDelete = request.getBody();
+                JSONObject obj = new JSONObject(userToDelete);
+                String name = obj.getString("name");
+                String grade = obj.getString("grade");
+                String school = obj.getString("school");
+                String parentemail = obj.getString("parentemail");
+                String studentemail = obj.getString("studentemail");
+                try {
+                    return ResponseUtil.createSuccessResponse(dynamoDBService.editItem(name, grade, school, parentemail, studentemail));
                 } catch (Exception e) {
-                    return ResponseUtil.createErrorResponse("An error occurred: " + e.getMessage());
-                }*/
+                    return ResponseUtil.createErrorResponse(e.getMessage());
+                }
             default:
                 return ResponseUtil.createErrorResponse("Invalid action.");
         }

@@ -7,7 +7,7 @@ interface StudentTableProps {
     sortOrder: 'asc' | 'desc';
     onSort: (column: keyof Student) => void;
     onEdit: (student: Student) => void;
-    onDelete: (studentID: number) => void;
+    onDelete: (studentID: number, name: string) => void;
     editingStudent: Student | null;
     setEditingStudent: (student: Student | null) => void;
     onSaveEdit: (student: Student) => void;
@@ -120,7 +120,18 @@ const StudentTable: React.FC<StudentTableProps> = ({
                                             }
                                         />
                                     </td>
-                                    <td className="p-4">{student.parentemail}</td>
+                                    <td>
+                                        <input
+                                            className="w-full p-2 border rounded bg-white text-black"
+                                            value={editingStudent.parentemail}
+                                            onChange={(e) =>
+                                                setEditingStudent({
+                                                    ...editingStudent,
+                                                    parentemail: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    </td>
                                     <td>
                                         <input
                                             className="w-full p-2 border rounded bg-white text-black"
@@ -165,7 +176,7 @@ const StudentTable: React.FC<StudentTableProps> = ({
                                         </button>
                                         <button
                                             className="ml-2 px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
-                                            onClick={() => onDelete(student.studentID)}
+                                            onClick={() => onDelete(student.studentID, student.name)}
                                         >
                                             Delete
                                         </button>

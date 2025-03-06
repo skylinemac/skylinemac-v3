@@ -33,7 +33,7 @@ public class DynamoDBEmailLambdaHandler implements RequestHandler<DynamodbEvent,
             // Retrieve email credentials from AWS Secrets Manager
             String secretValue = getSecret();
             JSONObject jObject = new JSONObject(secretValue);
-            String username = "zach.w.yuan@gmail.com";
+            String username = "shmathclub@gmail.com";
             String password = (String) jObject.getString(username);
 
             // Configure properties for sending email via SMTP (Gmail)
@@ -75,7 +75,7 @@ public class DynamoDBEmailLambdaHandler implements RequestHandler<DynamodbEvent,
     }
     public static String getSecret() {
 
-        String secretName = "TestPasskey";
+        String secretName = "HOSTPASS";
         Region region = Region.of("us-west-2");
 
         // Create a Secrets Manager client

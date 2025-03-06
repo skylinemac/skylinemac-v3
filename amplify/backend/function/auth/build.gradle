@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    // AWS Lambda Java SDK (for Lambda runtime and event handling)
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.1'
+    implementation 'com.amazonaws:aws-lambda-java-events:3.3.1'
+
+    // AWS SDK for Secrets Manager
+    implementation 'com.amazonaws:aws-java-sdk-secretsmanager:1.12.250'
+    implementation 'software.amazon.awssdk:secretsmanager:2.10.0'
+
+    // JSON API for parsing JSON data
+    implementation 'org.json:json:20210307'
+
+}
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'example.SecretsFunction' // Update this to the correct main class
+        )
+    }
+}
+test {
+    useJUnitPlatform()
+}
+task customZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtimeClasspath
+    }
+    archiveFileName = 'latest_build.zip'
+    destinationDirectory = file("$buildDir/distributions")
+}
+
+build.finalizedBy(customZip)

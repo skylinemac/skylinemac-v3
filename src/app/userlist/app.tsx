@@ -14,7 +14,7 @@ const App: React.FC = () => {
     const [editingStudent, setEditingStudent] = useState<Student | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const apiURL = 'https://87j23b69k9.execute-api.us-west-2.amazonaws.com/dev/entries';
+    const apiURL = 'https://87j23b69k9.execute-api.us-west-2.amazonaws.com/dev/entries/';
 
     useEffect(() => {
         fetchStudents();
@@ -85,12 +85,21 @@ const App: React.FC = () => {
     };
     
 
-    const handleDelete = async (studentID: number) => {
+    const handleDelete = async (studentID: number, name: string) => {
+        const data = {
+            studentID: studentID,
+            name: name,
+        }
         try {
-            await axios.post(apiURL, {
-                action: 'DELETE',
-                studentID
-            });
+            console.log('Deleting student:', studentID, name);
+            fetch(apiURL, {
+                method: 'DELETE',
+                headers: {
+                     "content-type": "application/json",
+                },
+                body: JSON.stringify(data),
+            }, 
+        );
             fetchStudents();
         } catch (error) {
             console.error('Error deleting student:', error);
@@ -99,8 +108,9 @@ const App: React.FC = () => {
 
     const handleEdit = async (student: Student) => {
         try {
-            await axios.post(apiURL, {
-                action: 'EDIT',
+            console.log("editingStudent: " + student.name);
+            fetch(apiURL, {
+                method: 'PATCH',
                 ...student
             });
             setEditingStudent(null);

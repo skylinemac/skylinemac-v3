@@ -1,5 +1,27 @@
 {
   "api": {
+    "AdminQueries": {
+      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "smacauth"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "AdminQueries015e88fd"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "displayDB": {
       "dependsOn": [
         {
@@ -9,6 +31,20 @@
           ],
           "category": "function",
           "resourceName": "DisplayRegDB"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
+    "practice": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "getQuizzes"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -29,8 +65,63 @@
       "service": "API Gateway"
     }
   },
-  "auth": {},
+  "auth": {
+    "smacauth": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    },
+    "userPoolGroups": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID",
+            "IdentityPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "smacauth"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito-UserPool-Groups"
+    }
+  },
   "function": {
+    "AdminQueries015e88fd": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "smacauth"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "DisplayRegDB": {
       "build": true,
       "dependsOn": [],
@@ -53,6 +144,18 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "auth": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "getQuizzes": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "registration": {
       "build": true,
       "dependsOn": [
@@ -71,56 +174,6 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
-    }
-  },
-  "parameters": {
-    "AMPLIFY_function_DisplayRegDB_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "DisplayRegDB"
-        }
-      ]
-    },
-    "AMPLIFY_function_DisplayRegDB_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "DisplayRegDB"
-        }
-      ]
-    },
-    "AMPLIFY_function_RegistrationEmail_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "RegistrationEmail"
-        }
-      ]
-    },
-    "AMPLIFY_function_RegistrationEmail_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "RegistrationEmail"
-        }
-      ]
-    },
-    "AMPLIFY_function_registration_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "registration"
-        }
-      ]
-    },
-    "AMPLIFY_function_registration_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "registration"
-        }
-      ]
     }
   },
   "storage": {
