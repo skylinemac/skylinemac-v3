@@ -19,11 +19,11 @@
         },
         "DisplayRegDB": {
           "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
-          "s3Key": "amplify-builds/DisplayRegDB-5656695155424d48444f-build.zip"
+          "s3Key": "amplify-builds/DisplayRegDB-4c50725650532f507476-build.zip"
         },
         "RegistrationEmail": {
           "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
-          "s3Key": "amplify-builds/RegistrationEmail-7a2f525847652f394633-build.zip"
+          "s3Key": "amplify-builds/RegistrationEmail-5758326e665157676464-build.zip"
         },
         "AdminQueries015e88fd": {
           "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
@@ -31,9 +31,12 @@
         },
         "auth": {
           "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
-          "s3Key": "amplify-builds/auth-4c515464465449333076-build.zip"
+          "s3Key": "amplify-builds/auth-2f306337526174447457-build.zip"
         },
-        "getQuizzes": {}
+        "getQuizzes": {
+          "deploymentBucketName": "amplify-skylinemacv3-dev-56621-deployment",
+          "s3Key": "amplify-builds/getQuizzes-547a7a43576742543567-build.zip"
+        }
       },
       "storage": {
         "partinfo": {},
@@ -42,7 +45,8 @@
       "api": {
         "regAPI": {},
         "displayDB": {},
-        "AdminQueries": {}
+        "AdminQueries": {},
+        "practice": {}
       },
       "auth": {
         "smacauth": {},

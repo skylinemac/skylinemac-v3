@@ -176,6 +176,104 @@
       "service": "Lambda"
     }
   },
+  "parameters": {
+    "AMPLIFY_function_AdminQueries015e88fd_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueries015e88fd"
+        }
+      ]
+    },
+    "AMPLIFY_function_AdminQueries015e88fd_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueries015e88fd"
+        }
+      ]
+    },
+    "AMPLIFY_function_DisplayRegDB_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "DisplayRegDB"
+        }
+      ]
+    },
+    "AMPLIFY_function_DisplayRegDB_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "DisplayRegDB"
+        }
+      ]
+    },
+    "AMPLIFY_function_RegistrationEmail_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "RegistrationEmail"
+        }
+      ]
+    },
+    "AMPLIFY_function_RegistrationEmail_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "RegistrationEmail"
+        }
+      ]
+    },
+    "AMPLIFY_function_auth_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "auth"
+        }
+      ]
+    },
+    "AMPLIFY_function_auth_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "auth"
+        }
+      ]
+    },
+    "AMPLIFY_function_getQuizzes_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getQuizzes"
+        }
+      ]
+    },
+    "AMPLIFY_function_getQuizzes_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getQuizzes"
+        }
+      ]
+    },
+    "AMPLIFY_function_registration_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "registration"
+        }
+      ]
+    },
+    "AMPLIFY_function_registration_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "registration"
+        }
+      ]
+    }
+  },
   "storage": {
     "participantinfo": {
       "providerPlugin": "awscloudformation",

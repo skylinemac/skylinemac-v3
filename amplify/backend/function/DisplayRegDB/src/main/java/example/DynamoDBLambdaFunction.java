@@ -35,20 +35,7 @@ public class DynamoDBLambdaFunction implements RequestHandler<APIGatewayProxyReq
                 JSONObject obj = new JSONObject(userToDelete);
                 int id = obj.getInt("studentID");
                 String name = obj.getString("name");
-                return ResponseUtil.createSuccessResponse(dynamoDBService.deleteItem(id, name));
-            case "PATCH":
-                String userToDelete = request.getBody();
-                JSONObject obj = new JSONObject(userToDelete);
-                String name = obj.getString("name");
-                String grade = obj.getString("grade");
-                String school = obj.getString("school");
-                String parentemail = obj.getString("parentemail");
-                String studentemail = obj.getString("studentemail");
-                try {
-                    return ResponseUtil.createSuccessResponse(dynamoDBService.editItem(name, grade, school, parentemail, studentemail));
-                } catch (Exception e) {
-                    return ResponseUtil.createErrorResponse(e.getMessage());
-                }
+                return ResponseUtil.createSuccessResponse(dynamoDBService.deleteItem("" + id, name));
             default:
                 return ResponseUtil.createErrorResponse("Invalid action.");
         }

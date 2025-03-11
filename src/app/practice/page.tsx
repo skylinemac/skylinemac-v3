@@ -10,7 +10,7 @@ const Home: React.FC = () => {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
 
   useEffect(() => {
-    axios.get("https://your-api-endpoint/quizzes")
+    axios.get("https://r1vzmzxn2i.execute-api.us-west-2.amazonaws.com/dev/quizzes")
       .then(response => setQuizzes(response.data))
       .catch(error => console.error("Error fetching quizzes", error));
   }, []);
