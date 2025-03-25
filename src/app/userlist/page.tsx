@@ -1,80 +1,144 @@
 "use client";
 
-import React, { useState } from 'react';
-import NavBar from "../navbar";
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import App from './app';
+import StudentTable from './studtable';
+import SearchBar from './searchbar';
+import { Student } from './types';
+import NavBar from '../navbar';
 
-export default function UserList() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-    const [authenticated, setAuthentication] = useState(false);
+const App: React.FC = () => {
+    const [students, setStudents] = useState<Student[]>([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [sortColumn, setSortColumn] = useState<keyof Student>('studentID');
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+    const [loading, setLoading] = useState<boolean>(true);
 
-    // Handler for form submission
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const apiURL = 'https://87j23b69k9.execute-api.us-west-2.amazonaws.com/dev/entries/';
 
-        // Check if username and password are filled out
-        if (!username || !password) {
-            setErrorMessage('Please fill out both fields.');
-            return;
-        }
+    useEffect(() => {
+        fetchStudents();
+    }, []);
 
+    const fetchStudents = async () => {
         try {
-            const response = await axios.get('https://87j23b69k9.execute-api.us-west-2.amazonaws.com/dev/auth');
-            const data = response.data;
-            if (data.Username === username && data.Password === password) {
-                setAuthentication(true);
+            const response = await axios.get(apiURL);
+            console.log('Raw Response from API:', response.data);
+    
+            // Ensure response data is properly formatted JSON
+            if (typeof response.data === 'string') {
+                try {
+                    const parsedData = JSON.parse(response.data);
+                    setStudents(formatStudents(parsedData));
+                } catch (error) {
+                    console.error('Error parsing JSON response:', error);
+                    setStudents([]);
+                }
+            } else {
+                setStudents(formatStudents(response.data));
             }
-
+    
+            setLoading(false);
         } catch (error) {
-            setErrorMessage('Failed to fetch user details. Please try again.');
-            console.error(error);
+            console.error('Error fetching students:', error);
+            setLoading(false);
+        }
+    };
+    
+    // Helper function to format student data
+    const formatStudents = (data: any[]): Student[] => {
+        return data.map((item) => ({
+            studentID: Number(item.studentID),
+            name: item.name || '',
+            grade: Number(item.grade),
+            school: item.school || '',
+            parentemail: item.parentemail || '',
+            studentemail: item.studentemail || '',
+        })).sort((a, b) => a.studentID - b.studentID);
+    };
+    
+    
+
+    const handleDelete = async (studentID: number, name: string) => {
+        const data = {
+            studentID: studentID,
+            name: name,
+        }
+        try {
+            console.log('Deleting student:', studentID, name);
+            await fetch(apiURL, {
+                method: 'DELETE',
+                headers: {
+                     "content-type": "application/json",
+                },
+                body: JSON.stringify(data),
+            }, 
+        );
+            fetchStudents();
+        } catch (error) {
+            console.error('Error deleting student:', error);
         }
     };
 
+
+    const handleSort = (column: keyof Student) => {
+        const order = column === sortColumn && sortOrder === 'asc' ? 'desc' : 'asc';
+        setSortColumn(column);
+        setSortOrder(order);
+        setStudents(prev =>
+            [...prev].sort((a, b) => {
+                if (column === 'studentID' || column === 'grade') {
+                    // Numeric comparison
+                    const compare = (a[column] as number) - (b[column] as number);
+                    return order === 'asc' ? compare : -compare;
+                } else {
+                    // String comparison
+                    const compare = (a[column] as string).localeCompare(b[column] as string);
+                    return order === 'asc' ? compare : -compare;
+                }
+            })
+        );
+    };
+    
+
+    const filteredStudents = students
+        ? students.filter(student =>
+              Object.values(student).some(value =>
+                  value != null && value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+              )
+          )
+        : [];
+
     return (
-        <div className="min-h-screen flex flex-col">
-            <NavBar />
-            {authenticated ? (
-                <App />
-            ) : (
-                 <div className="flex justify-center items-center flex-grow">
-                    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-                        <h2 className="text-2xl text-black font-semibold mb-4">Host Login</h2>
-                        <div className="mb-4">
-                            <label htmlFor="username" className="block text-medium font-medium text-gray-700">Username:</label>
-                            <input
-                                type="text"
-                                id="username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                required
-                                className="w-full p-3 border rounded-lg bg-white text-black focus:outline-none focus:ring focus:ring-blue-300"
-                            />
-                        </div>
+        <div>
+            <NavBar/>
+            <div className="flex flex-col items-center justify-center min-h-screen p-4">
 
-                        <div className="mb-4">
-                            <label htmlFor="password" className="block text-medium font-medium text-gray-700">Password:</label>
-                            <input
-                                type="password"
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                className="w-full p-3 border rounded-lg bg-white text-black focus:outline-none focus:ring focus:ring-blue-300"
-                           />
-                        </div>
-
-                        <button type="submit" className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Submit</button>
-
-                        {errorMessage && (
-                            <p className="mt-4 text-red-600 text-sm">{errorMessage}</p>
-                        )}
-                    </form>
+            <h1 className="text-2xl font-bold mb-4 text-black">Student Database</h1>
+            <div className="w-full max-w-md mb-4">
+                <SearchBar 
+                    searchTerm={searchTerm} 
+                    onSearch={setSearchTerm} 
+                />
+            </div>
+            {loading ? (
+                <div className="items-center justify-center min-h-screen mt-10">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500"></div>
                 </div>
+            ) : (
+            <div className= "mt-4">
+                <StudentTable
+                    students={filteredStudents}
+                    sortColumn={sortColumn}
+                    sortOrder={sortOrder}
+                    onSort={handleSort}
+                    onDelete={handleDelete}
+                />
+            </div>
             )}
+        </div>
         </div>
     );
 };
+
+export default App;

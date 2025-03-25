@@ -5,30 +5,24 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 
-
 public class DynamoDBQuizHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     private final DynamoDBService dynamoDBService = new DynamoDBService();
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
-        // Log received event
         System.out.println("Event received: " + request);
 
-        // Extract action from query parameters
-        String action = (String) request.getHttpMethod();
-
-        // Log action
+        String action = request.getHttpMethod(); // Extract action from HTTP method
         System.out.println("Action: " + action);
 
-        // Check if action is null or empty
         if (action == null || action.isEmpty()) {
             return ResponseUtil.createErrorResponse("Missing 'action' parameter.");
         }
 
         switch (action) {
             case "GET":
-                return ResponseUtil.createSuccessResponse(dynamoDBService.getAllItems());
+                return ResponseUtil.createSuccessResponse(dynamoDBService.getQuestionList());
             default:
                 return ResponseUtil.createErrorResponse("Invalid action.");
         }

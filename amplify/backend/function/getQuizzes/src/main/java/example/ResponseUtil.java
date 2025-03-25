@@ -1,17 +1,16 @@
 package example;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-
 import java.util.Map;
 import java.util.HashMap;
 
 public class ResponseUtil {
     
-    public static APIGatewayProxyResponseEvent createSuccessResponse(Object body) {
+    public static APIGatewayProxyResponseEvent createSuccessResponse(String jsonBody) {
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
         response.setStatusCode(200);
-        response.setBody(body.toString());
-        Map<String, String> headers = new HashMap<String, String>();
+        response.setBody(jsonBody); // JSON string is passed directly
+        Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("Access-Control-Allow-Origin", "*");
         headers.put("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");

@@ -75,7 +75,7 @@ public class DynamoDBEmailLambdaHandler implements RequestHandler<DynamodbEvent,
     }
     public static String getSecret() {
 
-        String secretName = "HOSTPASS";
+        String secretName = "MathClubPasskey";
         Region region = Region.of("us-west-2");
 
         // Create a Secrets Manager client

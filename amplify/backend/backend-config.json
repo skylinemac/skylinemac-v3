@@ -22,6 +22,20 @@
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
     },
+    "addQuestions": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "addQuestions"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "displayDB": {
       "dependsOn": [
         {
@@ -144,6 +158,11 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "addQuestions": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "auth": {
       "build": true,
       "dependsOn": [],
@@ -225,6 +244,22 @@
         }
       ]
     },
+    "AMPLIFY_function_addQuestions_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "addQuestions"
+        }
+      ]
+    },
+    "AMPLIFY_function_addQuestions_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "addQuestions"
+        }
+      ]
+    },
     "AMPLIFY_function_auth_deploymentBucketName": {
       "usedBy": [
         {
@@ -280,6 +315,10 @@
       "service": "DynamoDB"
     },
     "partinfo": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "practiceProblems": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
     }

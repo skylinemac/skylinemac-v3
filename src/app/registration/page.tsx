@@ -166,13 +166,8 @@ export default function DisplayForm() {
           </button>
         </form>
         {response && (
-          <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md">
-            <h3 className="text-xl font-medium text-gray-700">Submitted Data:</h3>
-            <p>Name: {response.name}</p>
-            <p>Grade: {response.grade}</p>
-            <p>School: {response.school}</p>
-            <p>Parent Email: {response.parentemail}</p>
-            <p>Student Email: {response.studentemail}</p>
+          <div className="mt-6 bg-gray-50 p-4 text-black rounded-lg shadow-md">
+            <h3 className="text-xl font-medium text-gray-700">Thank you for registering for our competition! Please verify that a confirmation email was received!</h3>
           </div>
         )}
       </div>

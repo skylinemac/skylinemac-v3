@@ -34,46 +34,6 @@ public class DynamoDBService {
         return createSuccessResponse("Item deleted successfully.");
     }
     
-    public Map<String, String> editItem(String parentemail, Map<String, String> attributes) {
-        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
-        StringBuilder updateExpression = new StringBuilder("SET ");
-
-        if (attributes.containsKey("name")) {
-            updateExpression.append("name = :name, ");
-            expressionAttributeValues.put(":name", AttributeValue.builder().s(attributes.get("name")).build());
-        }
-
-        if (attributes.containsKey("grade")) {
-            updateExpression.append("grade = :grade, ");
-            expressionAttributeValues.put(":grade", AttributeValue.builder().n(attributes.get("grade")).build());
-        }
-
-        if (attributes.containsKey("school")) {
-            updateExpression.append("school = :school, ");
-            expressionAttributeValues.put(":school", AttributeValue.builder().s(attributes.get("school")).build());
-        }
-
-        if (attributes.containsKey("studentemail")) {
-            updateExpression.append("studentemail = :studentemail, ");
-            expressionAttributeValues.put(":studentemail", AttributeValue.builder().s(attributes.get("studentemail")).build());
-        }
-
-        // Remove trailing comma and space
-        if (updateExpression.length() > 4) {
-            updateExpression.setLength(updateExpression.length() - 2);
-        }
-
-        UpdateItemRequest updateRequest = UpdateItemRequest.builder()
-                .tableName(tableName)
-                .key(Map.of("parentemail", AttributeValue.builder().s(parentemail).build()))
-                .updateExpression(updateExpression.toString())
-                .expressionAttributeValues(expressionAttributeValues)
-                .build();
-
-        dynamoDbClient.updateItem(updateRequest);
-        return createSuccessResponse("Item updated successfully.");
-    }
-
     private Map<String, String> createSuccessResponse(String message) {
         Map<String, String> response = new HashMap<>();
         response.put("message", message);

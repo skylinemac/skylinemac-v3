@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "paths": {
+    "/highestID": {
+      "name": "/highestID",
+      "lambdaFunction": "addQuestions",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/newQuestion": {
+      "name": "/newQuestion",
+      "lambdaFunction": "addQuestions",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

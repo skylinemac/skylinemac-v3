@@ -1,0 +1,26 @@
+{
+  "resourceName": "practiceProblems",
+  "tableName": "practiceProblems",
+  "partitionKey": {
+    "fieldName": "questionID",
+    "fieldType": "number"
+  },
+  "sortKey": {
+    "fieldName": "question",
+    "fieldType": "string"
+  },
+  "gsi": [
+    {
+      "name": "highestID",
+      "partitionKey": {
+        "fieldName": "constant",
+        "fieldType": "number"
+      },
+      "sortKey": {
+        "fieldName": "questionID",
+        "fieldType": "number"
+      }
+    }
+  ],
+  "triggerFunctions": []
+}
