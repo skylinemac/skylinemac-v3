@@ -3,6 +3,10 @@ import Navbar from "@/app/navbar";
 import { useState } from "react";
 
 const pdfLinks = [
+  "https://drive.google.com/file/d/1SQynG87iHg8EqiSl_W2xEi7cSjYvL8vY/view?usp=sharing",
+  "https://drive.google.com/file/d/1u_DkVgQ56rtqnpjK_C5l7gKsp8JPEEww/view?usp=sharing",
+  "https://drive.google.com/file/d/1FJV86JkCjcphyGOx2h8XWfBToQJL_XQP/view?usp=sharing",
+  "https://drive.google.com/file/d/1Wn5lBya9YWIXMNDjo3-HxCSGtx_L08s7/view?usp=sharing",
   "https://drive.google.com/file/d/1uu3ZNaT5CPkB9hWhBOm6qvWGow3M1ma3/preview",
   "https://drive.google.com/file/d/1wAQgTWtaPb0YMwgErERZ8Mt0PiKqbgR7/preview",
   "https://drive.google.com/file/d/1-3ZIYyTr3TkrFhndQD3Cvhb_Nt5Udjty/preview",
