@@ -53,26 +53,17 @@ The SMAC will have **4 rounds**. A detailed description of each round is found b
 - **Total Points**: 50 Points
 
 
-## Triple Jump
+## Investigative Round
 - **Qualification**: All Students
 
-- **Question Type**: 3 numerical responses between 000 and 999 inclusive per round; 2 rounds in total
+- **Question Type**: 6 open response questions, one round total.
 
-- **Time Limit**: 15 Minutes per round; 2 rounds in total
+- **Time Limit**: 30 minutes
 
 - **Point System**:
-
-  - 3 submissions per round
-
-    - 1 submission of all 3 answers each at the 5-minute, 10-minute, and 15-minute mark
-  - 2 points per correct answer for the 5-minute submission
+  - 10 points per question. Partial points will be awarded for any work shown.
   
-  - 3 points per correct answer for the 10-minute submission
-
-  - 5 points per correct answer for the 15-minute submission
-
-  - 0 points for blank or incorrect responses
-- **Total Points**: 30 Points per round; 60 Points in total
+- **Total Points**: 60 Points in total
 
 
 ## College Bowl
